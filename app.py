@@ -40,7 +40,7 @@ if st.button("Show Recommend"):
         st.image(movie_poster[1])
     with col3:
         st.text(movie_name[2])
-        st.image(movie_poster[1])
+        st.image(movie_poster[2])
     with col4:
         st.text(movie_name[3])
         st.image(movie_poster[3])
