@@ -39,7 +39,7 @@ similarity.pkl: Pre-computed similarity matrix for fast retrieval.
 Clone the repository.
 Install dependencies: 
 ```
-pip install streamlit requests pandas scikit-learn
+pip install -r requirements.txt
 ```
 Run the app: 
 ```
