@@ -1,7 +1,10 @@
 import streamlit as st  
 import pickle
 import requests 
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
+tmdb_api_key = os.getenv("TMDB_API_KEY")
 
 movies = pickle.load(open("movies_list.pkl","rb"))
 similarity = pickle.load(open("similarity.pkl","rb"))
@@ -11,12 +14,28 @@ st.header("Movie Recommendation System")
 select_values = st.selectbox("Select movie from dropdown", movies_list)
 
 def fetch_poster(movie_id):
-    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key=f3a9925a835bb64dda095405facfb024&language=en-US"
-    responses = requests.get(url)
-    data = responses.json()
-    poster_path = data['poster_path']
-    full_path = "https://image.tmdb.org/t/p/w500/" +poster_path
-    return full_path
+    if not tmdb_api_key:
+        st.error("API Key is missing! Please check your .env file setup.")
+        return "https://via.placeholder.com/500x750?text=No+API+Key"
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={tmdb_api_key}&language=en-US"
+    try: 
+        responses = requests.get(url)
+        data = responses.json()
+    # Check if 'poster_path' exists in the response
+        if 'poster_path' in data and data['poster_path']:
+            poster_path = data['poster_path']
+            full_path = "https://image.tmdb.org/t/p/w500/" + poster_path
+            return full_path
+        else:
+            # Print the API response to the app UI to debug why it failed
+            st.warning(f"Could not fetch poster for ID {movie_id}. API Response: {data.get('status_message', 'Unknown Error')}")
+            return "https://via.placeholder.com/500x750?text=Poster+Not+Found"
+            
+    except Exception as e:
+        st.error(f"Connection Error: {e}")
+        return "https://via.placeholder.com/500x750?text=Error"
+
+
 
 def recommend(movie):
     index = movies[movies['title'] == movie].index[0]

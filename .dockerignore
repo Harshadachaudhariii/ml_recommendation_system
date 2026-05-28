@@ -1,0 +1,20 @@
+# Environments & Cache
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Git & CI/CD
+.git/
+.github/
+.gitignore
+
+# Data Science Notebook Artifacts
+.ipynb_checkpoints/
+notebooks/
+dataset.csv
+
+# Production Environment variables (Crucial for safety!)
+.env

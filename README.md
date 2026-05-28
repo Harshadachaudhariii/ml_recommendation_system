@@ -1,47 +1,87 @@
-## Movie Recommendation System 
-A complete end-to-end Machine Learning web application that recommends movies based on textual similarity. This project demonstrates data preprocessing, feature engineering with NLP, similarity modeling, and web deployment.
+## Movie Recommendation System
 
-# Live Features
-Content-Based Filtering: Recommends movies similar to a user's selection by analyzing genres and plot overviews.
+## Problem Statement
+With thousands of movies available across streaming platforms, users frequently face "choice paralysis," spending more time scrolling through endless lists than actually watching content. Traditional recommendation engines often rely heavily on user rating histories (collaborative filtering), which fails for new users with no past data (the cold-start problem). Additionally, relying on heavy cloud infrastructure or expensive proprietary APIs to process basic text relationships introduces unnecessary costs and operational complexity for simple content matching.
 
-Dynamic Poster Fetching: Integrates with the TMDB API to fetch and display high-resolution movie posters in real-time.
+## Solution Proposed
+This Movie Recommendation System solves this problem by delivering a fast, privacy-focused, content-based recommendation engine that runs entirely locally. By analyzing textual features such as genres and plot overviews, the system maps movies into a high-dimensional vector space to find the most visually and contextually similar titles instantly. It features a lightweight, responsive Streamlit user interface coupled with real-time dynamic poster fetching via the TMDB API, giving users a seamless, interactive discovery dashboard without requiring complex cloud databases or user tracking.
 
-Interactive UI: A clean, responsive dashboard built with Streamlit for a seamless user experience.
+## Tech Stack Used
+1. Python
+2. Streamlit
+3. Scikit-Learn (CountVectorizer & Cosine Similarity)
+4. Pandas
+5. Pickle
+6. Requests (TMDB API Integration)
 
-# Technical Stack
- * Language: Python
- * Data Manipulation: Pandas
- * Machine Learning: Scikit-Learn (CountVectorizer & Cosine Similarity)
- * Web Framework: Streamlit
- * API: TMDB (The Movie Database)
- * Model Persistence: Pickle
+## Infrastructure Required
+1. Docker
+2. GitHub Actions
 
-## How It Works
-* Data Preprocessing & EDA: The system uses a dataset of 10,000 movies. I performed data cleaning to handle missing values in genres and overviews and selected key features (id, title, genre, overview) for the model.
-* Feature Engineering:
- * To find similarities, I created a "Tags" system: Combined the overview and genre columns into a single string for each movie. Used CountVectorizer to convert these text tags into 10,000-dimensional vectors, removing English stop words to focus on meaningful content.
+## How to Run
 
-* Similarity Modeling:
-Instead of simple keyword matching, the system calculates the Cosine Similarity between movie vectors. This measures the cosine of the angle between two vectors, allowing the system to find the "nearest" movies in a high-dimensional space.
+Step 1. Clone the Repository
+Clone the repository from GitHub to your local machine:
+```bash
+git clone [https://github.com/Harshadachaudhariii/ml_recommendation_system.git](https://github.com/Harshadachaudhariii/ml_recommendation_system.git)
+cd ml_recommendation_system
 
-* Application Logic
-The trained model and similarity matrix are exported using pickle.
-The Streamlit app loads these files to provide instant recommendations without retraining.
-When a movie is selected, the recommend() function identifies the top 5 closest matches and fetches their posters via API.
-
-* Project Structure
-main.ipynb: Data cleaning, EDA, and model building logic.
-app.py: Streamlit frontend code and API integration.
-movies_list.pkl: Pickled dataframe of processed movies.
-similarity.pkl: Pre-computed similarity matrix for fast retrieval.
-
-* Installation & Usage
-Clone the repository.
-Install dependencies: 
 ```
-pip install -r requirements.txt
+
+Step 2. Create a Virtual Environment
+
+```bash
+python -m venv .venv
+
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+
+# macOS / Linux
+source .venv/bin/activate
+
 ```
-Run the app: 
+
+Step 3. Install the Requirements
+
+```bash
+python -m pip install -r requirements.txt
+
 ```
-streamlit run app.py.
+
+Step 4. Configure Environment Variables
+
+Create a `.env` file in your root workspace to securely store your TMDB API credentials. Use the following baseline parameters:
+
+```env
+TMDB_API_KEY=your_tmdb_api_key_here
+
 ```
+
+Step 5. Start the Application
+
+Run the Streamlit frontend application locally:
+
+```bash
+streamlit run app.py
+
+```
+
+
+## Run Locally (Docker)
+
+1. Check if the `Dockerfile` and `docker-compose.yml` are available in the project directory.
+2. Build and launch the containerized application stack from the project root directory:
+
+```bash
+docker compose up -d --build
+
+```
+
+## Access Application
+
+* **Frontend (Streamlit Dashboard):** `http://localhost:8501`
+
+## Conclusion
+
+This Movie Recommendation System provides a high-performance, cost-free, and deployment-ready architecture for text-based content mapping. By compiling complex natural language features into a pre-computed local similarity matrix, the application delivers instantaneous recommendations with zero runtime model overhead. Packaged inside Docker and integrated with automated GitHub Actions, the project demonstrates a robust production blueprint for deploying isolated, lightweight machine learning interfaces.
+
