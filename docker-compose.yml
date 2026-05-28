@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  recommendation_app:
+    image: ghcr.io/harshadachaudhariii/ml_recommendation_system:latest
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
